@@ -1,0 +1,87 @@
+Datathon – HackNews – Solution – StepUp
+Posted 27.01.2019 ooeyad, ledge22, mshinoy, divyasubhashjain, imran55 Mentors: preslav, laura, alberto, giovanni 
+Team has considered following properties of data for coming up with the solution:
+Repetition of text.
+Length of words
+Lexical analysis of words
+frequency of words
+trigrams and bigrams of words
+Sentiments conveyed by the
+Word lemmatization
+The main modeling which included in 
+LSTM – Long short term memory with embedding from fasttext. 
+
+**Business Understanding**
+There are large number of article and news agendas floating around globally whose ideal agenda is to bring up correct information to the readers. But there are mostly fake and are motivated by wrong intentions. The public belief of these articles and news mainly rely heavily on heuristics and social cues in order to determine the credibility of information. So the real challenge is to get the authenticity of the news from any source by real time detection using classification, regression and other complex memory modeling techniques to label it fake or fact.
+
+
+** Data Understanding**
+Team has worked on Task 1, which is PAL classification. Dataset consist of series of text labeled as propaganda and non-propaganda. Objective is to classify as fake or fact. Explored datasets’ structure by checking the semantic and relation of words across propaganda and non-propaganda news..
+
+**Data Preparation**
+In text pre-processing the tasks involved:
+Removal of HTML tags and special character
+Conversation removal
+Tag most common text in a document
+Stop words removal
+White spaces removal
+Feature Engineering: Feature engineering will remove all the features that are not relevant and common across all documents.
+Solution includes different techniques for selecting the features that are most relevant and yields more information needed for the classification task.
+1.     Different phases in feature engineering include:  Dictionary Construction & Feature Weighting
+Train Dataset (TRAIN SET) –> Data Type: News text for train–> Data Format: txt
+Test Dataset (Dev test set) –> Data Type:  News text for test –> Data Format: txt
+2. ETL + Prep:
+Remove: The stop words from nltk as well as customized, punctuation, empty text.
+Format: converted all text to lower case.
+Length for Modeling:  length of the words.
+**Data Modeling**
+ 
+Team has considered following properties of data for coming up with the solution:
+Repetition of text.
+Length of words
+Lexical analysis of words
+frequency of words
+trigrams and bigrams of words
+Sentiments conveyed by the
+Word lemmatization
+The main modeling which included in 
+LSTM – Long short term memory with embedding from fasttext. 
+In brief let me explain the techniques applied and customized according to our data. Team have come up with a strategy to classify using 3 complex modeling techniques like LSTM, KNN and naïve bayes and get the prediction results. Once we have the results, we decided that the best was LSTM with adding an embedding layer of Facebook Fast-text. URL: https://dl.fbaipublicfiles.com/fasttext/vectors-english/crawl-300d-2M.vec.zip
+ 
+LSTM :  Long short term memory
+Our model is unlike any traditional recurrent neural network, in which during the gradient back-propagation phase, the gradient signal can end up being multiplied a large number of times (as many as the number of timestamps) by the weight matrix associated with the connections between the neurons of the recurrent hidden layer. This means that, the magnitude of weights in the transition matrix can have a strong impact on the learning process.
+If the weights in this matrix are small, it can lead to a situation called vanishing gradients. It can also make more difficult the task of learning long-term dependencies in the data. This is often referred to as exploding gradients.
+These issues are the main motivation behind the our LSTM model which introduces a new structure called a memory cell (see Figure 1 below). A memory cell is composed of four main elements: an input gate, a neuron with a self-recurrent connection (a connection to itself), a forget gate and an output gate. The self-recurrent connection has a weight of 1.0 and ensures that, barring any outside interference, the state of a memory cell can remain constant from one timestamp to another. The gates serve to modulate the interactions between the memory cell itself and its environment. The input gate can allow incoming signal to alter the state of the memory cell or block it. On the other hand, the output gate can allow the state of the memory cell to have an effect on other neurons or prevent it. Finally, the forget gate can modulate the memory cell’s self-recurrent connection, allowing the cell to remember or forget its previous state, as needed. This forms the basis of the applied model here.
+
+ 
+
+ 
+Thus we chosen LSTM because LSTM outperforms the other models when we want our model to learn from long term dependencies. LSTM’s ability to forget, remember and update the information pushes it one step ahead of other models.
+KNN for Text mining:
+The kNearest Neighbour classification method makes use of training text news, which have known 2 categories, and finds the closest neighbours of the new sample document among all. These neighbours enable to find the new document’s category. The Euclidean distance has been used as a similarity function for measuring the difference or similarity between two instances.
+The classification rules of k-NN are created by the training samples alone, with no other additional data. In a more complicated approach, k-NN classification, finds a group of k objects in the training set that are nearest to the test object, and bases the assignment of a label on the predominance of a particular class in this neighbourhood. The k-Nearest Neighbour algorithm (k-NN) is a method for classifying objects based on closest training examples in the feature space. k-NN is a type of instance-based learning, or lazy learning where the function is only approximated locally and all computation is deferred until classification.
+
+Fig: Shows common approach in KNN classifying points into its nearest neighbour
+Naïve Bayes for Text classification:
+This is a simple (naive) classification method based on Bayes rule. It relies on a very simple representation of the document (called the bag of wordsrepresentation)
+Imagine we have 2 classes ( positive and negative ), and our input is a text representing a review of a movie. We want to know whether the review was positive or negative. So we may have a bag of positive words (e.g. love, amazing,hilarious, great), and a bag of negative words (e.g. hate, terrible).
+We may then count the number of times each of those words appears in the document, in order to classify the document as positive or negative.
+This technique works well for topic classification and same is applied here for modelling.
+For difference between Naive Bayes & Multinomial Naive Bayes:
+Naive Bayes is generic. Multinomial Naive Bayes is a specific instance of Naive Bayes where the P (Featurei|Class) follows multinomial distribution (word counts, probabilities and we have used multinomial distribution.
+
+Fig: Shows a example of naïve Bayed applied on commonly known iris dataset
+Steps followed for data modelling are as follows:
+Applied LSTM modelling on data by creating facebook embedding, word crawler and resource file for word vector and got prediction in y_pred_1
+Applied Naïve Bayes and got the y_pred_2
+Applied KNN after tuning and got 7 as best K. Predicted results in y_pred_3
+We also wanted to apply the Bert which is explained above for initial embedding on the advise of some academic experts but kept it on hold due to time constraint. On further selection, out team will incorporate this Bert embedding method.
+used LSTM model and decided to work on it.
+Calculated the F1 score lastly based on all the 3 model results.
+ 
+**Evaluation**
+Baseline Model: We have used KNN approach by 7 segment to check the words neighbour and frequency for creating a baseline of 72%. Later applied LSTM for modelling and getting the F1 score.
+Results of the training dataset are as follows:
+Precision=0.862
+Recall=0.902
+F1= 0.881
